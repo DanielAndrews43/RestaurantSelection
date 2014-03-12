@@ -17,32 +17,38 @@ import java.util.Scanner;
  */
 public class UserHandler {
     static Scanner userInput1 = new Scanner(System.in);
+    
     static void addInterface() throws IOException, FileNotFoundException{
+        FileHandler names = new FileHandler("names.txt");
         while(true){
-            System.out.println("Please enter restaurant name: ");
+            System.out.print("Please enter restaurant name: ");
             String name = null;
-            if(userInput1.hasNext()){
-                name = userInput1.next();
+            name = userInput1.nextLine();
+            if(name.length() == 0){
+                break;
             }
-            if(!FileHandler.containsName(name)){
+            if(FileHandler.containsName(name)){
                 System.out.println("Name already exists!");
             }else{
-                String[] tags = new String[5];
-                System.out.print("\nPlease enter tags seperated by spaces: ");
+                String[] tags = new String[2];
+                System.out.print("Please enter exactly two tags seperated by a space: ");
                 for(int i = 0; i < tags.length; i++){
-                    if(userInput1.hasNext()){
-                        tags[i] = userInput1.next();
-                    }
-                    else{
-                        break;
-                    }
+                    tags[i] = userInput1.next();
                 }
-                FileHandler.addName(name,tags);
+                
+                names.addName(name,tags);
+            }
+            System.out.print("Continue? y/n: ");
+            if(userInput1.next().equals("y")){
+                System.out.println();
+            }else{
+                return;
             }
         }
     }
     
     static void findInterface() throws IOException{
+        FileHandler names = new FileHandler("names.txt");
         while(true){
             Scanner userInput1 = new Scanner(System.in);
             userInput1.useDelimiter(" |/n");

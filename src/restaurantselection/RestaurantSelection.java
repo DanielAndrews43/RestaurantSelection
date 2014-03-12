@@ -25,12 +25,10 @@ public class RestaurantSelection {
     public static void main(String[] args) {
         boolean running = true;
         try{
-            FileHandler names = new FileHandler("names.txt");
             while(running){
                 System.out.println("Add names or find restaurants?");
-                System.out.print("Enter 'add' or 'find' or 'end': ");
+                System.out.print("Enter 'add', 'find', or 'end': ");
                 String operation = userInput.next();
-                userInput.close();
                 if(operation.equals("add")){
                     UserHandler.addInterface();
                 }
@@ -52,7 +50,7 @@ public class RestaurantSelection {
             System.err.println("Failure with scanners. Please report");
         }
         catch(Exception e){
-            System.err.println("Something went wrong. Please report");
+            System.err.println(e.getMessage());
         }
     }
 }

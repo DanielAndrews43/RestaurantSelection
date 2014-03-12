@@ -21,19 +21,20 @@ import java.util.ArrayList;
  * @author danielandrews
  */
 public class FileHandler {
-    String fileName;
+    static String fileName = "names.txt";
     static File names;
     public FileHandler(String fileName) throws IOException{
-        fileName = fileName;
+        this.fileName = fileName;
         names = new File(fileName);
         if(!names.exists()){
             names.createNewFile();
         }
     }
     
-    static void addName(String name, String[] tags) throws IOException{
+    public static void addName(String name, String[] tags) throws IOException{
         //replace with "BufferedWriter out = getWriter();"
-        BufferedWriter out = new BufferedWriter(new FileWriter(names,true));
+        File file = new File(FileHandler.fileName);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
         for (String tag : tags) {
             tag = tag.toLowerCase();
         }
@@ -44,10 +45,13 @@ public class FileHandler {
             if(i == 0){
                 tagNames = tags[0];
             }else{
-                tagNames = tagNames + " " + tags[i];
+                tagNames = tagNames + "||" + tags[i];
             }
         }
-        out.write(name + " " + tagNames);
+        writer.write(name + "|" + tagNames);
+        writer.newLine();
+        writer.close();
+        System.out.println("Successfully added!");
     }
     
     static ArrayList<String> findNames(String tags) throws FileNotFoundException, IOException{
@@ -88,7 +92,7 @@ public class FileHandler {
     }
     
     static boolean containsName(String name) throws FileNotFoundException, IOException{
-        //replace with "BufferedReader in = gerReader();
+        //replace with "BufferedReader in = getReader();
         BufferedReader in = new BufferedReader(new FileReader(names));
         String line;
         while((line = in.readLine())!= null){
