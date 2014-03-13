@@ -45,29 +45,24 @@ public class FileHandler {
             if(i == 0){
                 tagNames = tags[0];
             }else{
-                tagNames = tagNames + "||" + tags[i];
+                tagNames = tagNames + "~~" + tags[i];
             }
         }
-        writer.write(name + "|" + tagNames);
+        writer.write(name + "~" + tagNames);
         writer.newLine();
         writer.close();
         System.out.println("Successfully added!");
     }
     
-    static ArrayList<String> findNames(String tags) throws FileNotFoundException, IOException{
-        ArrayList<String> tagList = tagConvert(tags);
-        for (String tag1 : tagList) {
-            tag1 = tag1.toLowerCase();
-        }
+    static ArrayList<String> findNames(String tag) throws FileNotFoundException, IOException{
+        tag = tag.toLowerCase();
         //replace with "BufferedReader in = getReader();"
         BufferedReader in = new BufferedReader(new FileReader(names));
         String line;
         ArrayList<String> nameList = new ArrayList<>();
         while((line = in.readLine())!= null){
-            for(int i = 0; i < tagList.size(); i++){
-                if(line.contains(tagList.get(i))){
-                    nameList.add(tagList.get(i));
-                }
+            if(line.contains(tag)){
+                nameList.add(FileHandler.onlyName(line));
             }
         }
         if(nameList.isEmpty()){
@@ -76,19 +71,14 @@ public class FileHandler {
         return nameList;
     }
     
-    static ArrayList<String> tagConvert(String words){
-        ArrayList<String> tags = new ArrayList<>();
-        char[] c = new char[words.length()];
-        for(int i = 0; i < c.length; i++){
-            if(words.charAt(i)==' '){
-                tags.add(c.toString());
-                c = new char[words.length()];
-            }
-            else{
-                c[i] = words.charAt(i);
-            }
+    static String onlyName(String line){
+        String[] name;
+        if(line.contains("~")){
+            name = line.split("~");
+            return name[0];
+        }else{
+            return null;
         }
-        return tags;
     }
     
     static boolean containsName(String name) throws FileNotFoundException, IOException{

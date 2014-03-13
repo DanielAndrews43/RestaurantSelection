@@ -38,12 +38,12 @@ public class UserHandler {
                 
                 names.addName(name,tags);
             }
-            System.out.print("Continue? y/n: ");
-            if(userInput1.next().equals("y")){
-                System.out.println();
-            }else{
-                return;
-            }
+//            System.out.print("Continue? y/n: ");
+//            if(userInput1.next().equals("y")){
+//                System.out.println();
+//            }else{
+//                return;
+//            }
         }
     }
     
@@ -51,15 +51,20 @@ public class UserHandler {
         FileHandler names = new FileHandler("names.txt");
         while(true){
             Scanner userInput1 = new Scanner(System.in);
-            userInput1.useDelimiter(" |/n");
-            System.out.println("Enter tags: ");
-            String tags = userInput1.next();
-            ArrayList<String> nameList = FileHandler.findNames(tags);
+            System.out.print("Enter tag: ");
+            String tag = userInput1.next();
+            ArrayList<String> nameList = FileHandler.findNames(tag);
             if(nameList == null){
                 System.out.println("Nothing was found that matched!");
             }
-            for(int i = 0; i < nameList.size(); i++){
-                System.out.println(nameList.get(i));
+            else{
+                System.out.println("\nout of: ");
+                for(int i = 0; i < nameList.size(); i++){
+                    System.out.print(nameList.get(i)+", ");
+                }
+                String rand = nameList.get((int)(Math.random()*nameList.size()));
+                System.out.println("\n\nYou chose: " + rand + "\n");
+                return;
             }
         }
     }
